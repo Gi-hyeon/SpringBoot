@@ -4,15 +4,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <body>
-	<form action="" enctype="multipart/form-data"></form>
+	<!-- <form action="" enctype="multipart/form-data"></form> -->
 	<h1>Home</h1>
+	<div id="disp"></div>
+	<!-- <a href="/upload/1.jpg" download="1.jpg">지원다운로드</a> -->
 	<input type="file" id="mFile" value=""><br>
 	<button onclick="fpost()">post 테스트</button>
 	<button onclick="ffile()">file 테스트</button>
 
 	<script>
+		const myDisp = document.querySelector('#disp');
 		const myFile = document.querySelector('#mFile');
 		function ffile(){
 			// AJAX로 파일 올릴 때 꼬옥 FormData가 필요
@@ -27,6 +31,11 @@
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState == 4 && xhr.status == 200){
 					console.log(xhr.responseText);
+					let aTag = document.createElement('a');
+					aTag.href = xhr.responseText;
+					aTag.innerHTML = xhr.responseText.split("/")[2] + " 다운로드";
+					aTag.download = xhr.responseText.split("/")[2];
+					myDisp.appendChild(aTag);
 				}
 			}
 			xhr.send(formData);
