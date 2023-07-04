@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -15,15 +17,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.vo.TestVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/")
 public class ExampleController {
 	
-//	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	@GetMapping("/home")
+	@GetMapping("/")
 	public String home() {
 		return "home";
 	}
@@ -89,6 +94,19 @@ public class ExampleController {
 		
 		return myListMap;
 	}
+	
+	@PostMapping(value = "/mfile", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String restfile(MultipartFile myFile) throws Exception, IOException {
+		
+		log.info("OriginalName : " + myFile.getOriginalFilename());
+		log.info("size : " + myFile.getSize());
+		
+		myFile.transferTo(new File("d:/MyTool/upload/1.jpg"));
+		
+		return "1.jpg";
+	}
+	
 	
 	@PutMapping(value = "/home1", produces = "application/json; charset=utf-8")
 	@ResponseBody
