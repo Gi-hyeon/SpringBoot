@@ -102,9 +102,11 @@ public class ExampleController {
 		log.info("OriginalName : " + myFile.getOriginalFilename());
 		log.info("size : " + myFile.getSize());
 		
-		myFile.transferTo(new File("d:/MyTool/upload/1.jpg"));
 		
-		return "1.jpg";
+		String destPath = "d:/MyTool/upload/" + myFile.getOriginalFilename();
+		myFile.transferTo(new File(destPath));
+		
+		return "/upload/" + myFile.getOriginalFilename();
 	}
 	
 	
