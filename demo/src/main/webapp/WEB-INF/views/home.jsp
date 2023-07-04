@@ -18,27 +18,53 @@
 	<script>
 		const myDisp = document.querySelector('#disp');
 		const myFile = document.querySelector('#mFile');
-		function ffile(){
-			// AJAX로 파일 올릴 때 꼬옥 FormData가 필요
-			// FormData는 무조건 multipart/form-data 형식(자동)
-			let formData = new FormData();
-			console.log(myFile.files[0]);
-			formData.append("myFile", myFile.files[0]);
+
+		// function ffile(){
+		// 	// AJAX로 파일 올릴 때 꼬옥 FormData가 필요
+		// 	// FormData는 무조건 multipart/form-data 형식(자동)
+		// 	let formData = new FormData();
+		// 	console.log(myFile.files[0]);
+		// 	formData.append("myFile", myFile.files[0]);
 			
-			/* formData를 보낼 때 다른 세세한 설정들은 필요없다. */
-			var xhr = new XMLHttpRequest();
-			xhr.open("post", "/mfile", true);
-			xhr.onreadystatechange = function(){
-				if(xhr.readyState == 4 && xhr.status == 200){
-					console.log(xhr.responseText);
+		// 	/* formData를 보낼 때 다른 세세한 설정들은 필요없다. */
+		// 	var xhr = new XMLHttpRequest();
+		// 	xhr.open("post", "/mfile", true);
+		// 	xhr.onreadystatechange = function(){
+		// 		if(xhr.readyState == 4 && xhr.status == 200){
+		// 			console.log(xhr.responseText);
+		// 			let aTag = document.createElement('a');
+		// 			aTag.href = xhr.responseText;
+		// 			aTag.innerHTML = xhr.responseText.split("/")[2] + " 다운로드";
+		// 			aTag.download = xhr.responseText.split("/")[2];
+		// 			myDisp.appendChild(aTag);
+		// 		}
+		// 	}
+		// 	xhr.send(formData);
+		// }
+
+		// ajax 파일업로드 jQuery 사용
+		function ffile(){
+			let formData = new FormData();
+			formData.append("myFile", myFile.files[0]);
+
+			$.ajax({
+				type: "post",
+				url: "/mfile",
+				// 여기 중요
+				contentType: false,		// 필수, 강제 초기설정x 설정임 -> www-url-encoded
+				processData: false,		// 필수, 처리시에 www-url-encoded로 하는 거 하지말라는 말
+				cache: false,			// 이건 옵션
+				data: formData,
+				dataType: "text",
+				success: function(rslt){
 					let aTag = document.createElement('a');
-					aTag.href = xhr.responseText;
-					aTag.innerHTML = xhr.responseText.split("/")[2] + " 다운로드";
-					aTag.download = xhr.responseText.split("/")[2];
+					aTag.href = rslt;
+					aTag.innerHTML = rslt.split("/")[2] + " 다운로드";
+					aTag.download = rslt.split("/")[2];
 					myDisp.appendChild(aTag);
 				}
-			}
-			xhr.send(formData);
+
+			})
 		}
 
 		// 개발할 때는 보내는 데이터의 모습을 눈 가까이에 두자!
