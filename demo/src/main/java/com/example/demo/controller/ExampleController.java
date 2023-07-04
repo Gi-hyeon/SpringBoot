@@ -97,6 +97,7 @@ public class ExampleController {
 	
 	@PostMapping(value = "/mfile", produces = "application/json; charset=utf-8")
 	@ResponseBody
+	// formData 받을 때는 @RequestBody를 사용하지 않음
 	public String restfile(MultipartFile myFile) throws Exception, IOException {
 		
 		log.info("OriginalName : " + myFile.getOriginalFilename());
