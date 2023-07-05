@@ -18,11 +18,21 @@ public class SujinMapperTest {
 	@Test	// Run as -> JUnit Test에서 검사가능
 	@DisplayName("isnet mapper test")
 	public void insertTest() {
-		SujinVO sujinVO = new SujinVO();
-		sujinVO.setSujinName("name SpringBootTest!");
-		sujinVO.setSujinContent("content SpringBootTest!");
+		/*
+		 * SujinVO sujinVO = new SujinVO();
+		 * sujinVO.setSujinName("name SpringBootTest!");
+		 * sujinVO.setSujinContent("content SpringBootTest!");
+		 * 
+		 * assertEquals(1, sujinMapper.sujinInsert(sujinVO));
+		 */
 		
-		assertEquals(1, sujinMapper.sujinInsert(sujinVO));
+		SujinVO sujinVO;
+		for(int i=1; i<=20; i++) {
+			sujinVO = new SujinVO();
+			sujinVO.setSujinName("name SpringBootTest " + i);
+			sujinVO.setSujinContent("contest SpringBootTest " + i);
+			assertEquals(1, sujinMapper.sujinInsert(sujinVO));
+		}
 	}
 	
 }
